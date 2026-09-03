@@ -1,133 +1,177 @@
-# 🎬 Netflix Movies & TV Shows Data Analysis
+# Netflix Movies and TV Shows Data Analytics
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
-[![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-orange.svg?logo=jupyter&logoColor=white)](https://jupyter.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B.svg?logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![Plotly](https://img.shields.io/badge/Plotly-Interactive%20Visuals-3F4F75.svg?logo=plotly&logoColor=white)](https://plotly.com/)
 [![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-150458.svg?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
-[![Seaborn](https://img.shields.io/badge/Seaborn-Visualization-blueviolet.svg)](https://seaborn.pydata.org/)
+[![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-orange.svg?logo=jupyter&logoColor=white)](https://jupyter.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-An end-to-end **Exploratory Data Analysis (EDA)** and Data Preprocessing project exploring Netflix's global catalog of movies and TV shows up to 2021. This project uncovers content distribution patterns, global production hubs, release timelines, target demographics, and strategic shifts in Netflix's streaming catalog.
+An end-to-end data analytics portfolio project featuring an in-depth Exploratory Data Analysis (EDA) pipeline and a production-grade interactive Streamlit web dashboard analyzing Netflix's global content library up to late 2021.
 
 ---
 
-## 📌 Table of Contents
-- [Project Overview](#-project-overview)
-- [Dataset Summary](#-dataset-summary)
-- [Project Structure](#-project-structure)
-- [Data Cleaning & Preparation](#-data-cleaning--preparation)
-- [Key Insights & Findings](#-key-insights--findings)
-- [Tech Stack](#-tech-stack)
-- [Getting Started](#-getting-started)
-- [Future Enhancements](#-future-enhancements)
-- [Author & Acknowledgments](#-author--acknowledgments)
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Dataset Summary](#dataset-summary)
+- [Project Architecture](#project-architecture)
+- [Data Preprocessing Pipeline](#data-preprocessing-pipeline)
+- [Key Insights and Findings](#key-insights-and-findings)
+- [Interactive Streamlit Dashboard](#interactive-streamlit-dashboard)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Author and License](#author-and-license)
 
 ---
 
-## 📖 Project Overview
+## Project Overview
 
-Netflix is one of the world's leading entertainment streaming services. Understanding its catalog composition reveals important strategic insights about:
-- Content prioritization (Movies vs. TV Series)
-- Global market expansion & regional investments (e.g., US, India, UK, East Asia)
-- Target audience segmentation through content ratings (e.g., TV-MA, TV-14)
-- Growth dynamics and catalog updates over time
+As streaming services evolve into global media powerhouses, understanding catalog composition, licensing velocity, and target demographics provides critical strategic context. This project analyzes 8,807 titles across 12 metadata attributes to answer key business questions:
 
-This portfolio project delivers a clean, reproducible analytical pipeline built with **Python**, **Pandas**, and **Seaborn/Matplotlib** in a Jupyter Notebook.
+1. **Portfolio Composition**: What is the structural balance between feature films and serialized television?
+2. **Geographic Footprint**: Which production ecosystems dominate the catalog, and how diversified is international sourcing?
+3. **Temporal Dynamics**: When did catalog expansion accelerate, and what seasonal patterns govern title additions?
+4. **Demographic Targeting**: How does maturity rating segmentation align with subscriber acquisition goals?
+5. **Content Characteristics**: What are typical film durations, television run lengths, and acquisition lags from original release?
+6. **Creative Talent Network**: Which directors and cast ensembles recur most frequently across original and licensed titles?
 
 ---
 
-## 📊 Dataset Summary
+## Dataset Summary
 
-The dataset consists of **8,807 rows** and **12 columns**, capturing comprehensive metadata for Netflix titles up to late 2021.
+The dataset originates from Kaggle's [Netflix Movies and TV Shows](https://www.kaggle.com/datasets/shivamb/netflix-shows) collection, capturing catalog records up to September 2021.
 
 | Column | Data Type | Description |
 | :--- | :--- | :--- |
-| `show_id` | String | Unique identifier for each title (e.g., `s1`, `s2`) |
-| `type` | String | Content category (`Movie` or `TV Show`) |
-| `title` | String | Title of the movie or series |
-| `director` | String | Director(s) of the content |
-| `cast` | String | Main actors / cast members |
-| `country` | String | Country/countries involved in production |
-| `date_added` | String / Date | Date the title was added to Netflix |
-| `release_year`| Integer | Original release year (1925 – 2021) |
-| `rating` | String | Age rating / content certification (e.g., `TV-MA`, `PG-13`) |
-| `duration` | String | Duration in minutes (`min`) or number of seasons (`Season(s)`) |
-| `listed_in` | String | Genres / categories (comma-separated) |
-| `description` | String | Brief synopsis / plot summary |
+| `show_id` | String | Unique identifier for each title |
+| `type` | String | Content classification (`Movie` or `TV Show`) |
+| `title` | String | Official release title |
+| `director` | String | Director names (comma-separated for ensemble projects) |
+| `cast` | String | Primary credited actors (comma-separated) |
+| `country` | String | Production countries involved |
+| `date_added` | Datetime | Date the content was onboarded to the platform |
+| `release_year`| Integer | Original theatrical/television release year |
+| `rating` | String | Age rating code (e.g., `TV-MA`, `TV-14`, `R`, `PG-13`) |
+| `duration` | String | Runtime string (`min` for movies, `Season(s)` for series) |
+| `listed_in` | String | Genre categories (comma-separated) |
+| `description` | String | Narrative synopsis |
 
 ---
 
-## 📁 Project Structure
+## Project Architecture
 
 ```text
 Netflix Movies and Series/
 │
 ├── Analysis/
-│   └── Netflix_Data_Analysis.ipynb    # Main Jupyter Notebook with complete EDA pipeline
+│   └── Netflix_Data_Analysis.ipynb    # Complete 42-cell EDA research notebook
+│
+├── Dashboard/
+│   ├── app.py                         # Streamlit multi-tab analytics application
+│   └── requirements.txt               # Dashboard runtime dependencies
 │
 ├── Dataset/
-│   └── netflix_titles.csv             # Raw Netflix dataset
+│   └── netflix_titles.csv             # Raw source dataset (8,807 rows)
 │
-└── README.md                          # Project documentation & insights report
+└── README.md                          # Project documentation and findings report
 ```
 
 ---
 
-## 🛠️ Data Cleaning & Preparation
+## Data Preprocessing Pipeline
 
-Before conducting exploratory analysis, the dataset underwent systematic preprocessing:
+The analytical pipeline cleans and standardizes the dataset through five sequential stages:
 
-1. **Handling Data Misalignments**:
-   - Fixed entries where movie duration values (e.g., `74 min`, `84 min`, `66 min`) were misplaced in the `rating` column.
-2. **Missing Value Imputation**:
-   - Replaced missing values in categorical fields (`director`, `cast`, `country`) with `'Unknown'`.
-   - Handled rare missing records in `date_added`, `rating`, and `duration`.
-3. **Feature Engineering & Type Casting**:
-   - Parsed `date_added` into standardized `datetime` objects.
-   - Extracted `year_added` and `month_added` to evaluate temporal trends.
+1. **Rating Misalignment Correction**:
+   - Identified and resolved records where duration strings (e.g., `74 min`, `84 min`) were displaced into the `rating` field.
+   - Migrated duration values to their respective column and reset invalid rating fields.
 
----
+2. **Categorical Imputation**:
+   - Addressed missing entries in `director` (2,634 rows), `cast` (825 rows), and `country` (831 rows) by imputing standardized `'Unknown'` labels to prevent silent data truncation during aggregation.
 
-## 💡 Key Insights & Findings
+3. **Critical Record Filtering**:
+   - Dropped rows with missing `date_added`, `rating`, or `duration` values to maintain integrity in time-series and demographic evaluations (final cleaned volume: 8,790 titles).
 
-### 1. Movie Dominance vs. TV Shows
-* **Movies** comprise **~69.6% (6,131 titles)** of the catalog, while **TV Shows** make up **~30.4% (2,676 titles)**.
-* Movies remain the core volume driver, although multi-season TV shows provide higher recurring viewer engagement.
+4. **Temporal Feature Engineering**:
+   - Converted `date_added` strings to standardized datetime objects.
+   - Derived `year_added`, `month_added`, `month_name`, and `day_of_week`.
+   - Engineered `lag_years` (`year_added - release_year`) to measure content age at acquisition.
 
-### 2. Top Content Producing Nations
-* **United States** leads global production by a large margin (**2,800+ titles**).
-* **India** is the second-largest content contributor (**970+ titles**), highlighting Netflix's massive investment in Bollywood and Indian regional cinema.
-* Other major hubs include the **United Kingdom**, **Japan**, **South Korea**, **Canada**, and **Spain**.
-
-### 3. Rapid Catalog Expansion (2016–2020)
-* Content additions on Netflix surged exponentially starting in **2016**, reaching peak intake between **2018 and 2020**.
-* This aligns with Netflix's aggressive global expansion and pivot toward Netflix Originals.
-
-### 4. Audience Demographics & Ratings
-* **TV-MA** (Mature Audiences / Adults) is the single largest category (**>36%** of all content), followed by **TV-14** (**>24%**).
-* Netflix’s catalog strongly targets young adults and mature demographics, while maintaining family/kids programming (`TV-PG`, `TV-Y7`, `PG`).
+5. **Metric Normalization**:
+   - Extracted numeric duration (`duration_clean`) as minutes for movies and season counts for TV shows.
 
 ---
 
-## 💻 Tech Stack
+## Key Insights and Findings
 
-- **Language**: Python 3.8+
+### Executive Summary Metrics
+
+| Metric | Value | Context |
+| :--- | :--- | :--- |
+| Total Analyzed Titles | 8,790 | Cleaned catalog records |
+| Feature Films | 6,126 (69.7%) | Volume anchor of the library |
+| Television Series | 2,664 (30.3%) | Primary driver of recurring engagement |
+| Content Sourcing Nations | 123 | Unique production territories |
+| Genre Categories | 42 | Granular content tags |
+| Onboarding Period | 2008 - 2021 | Catalog intake window |
+| Mean Movie Runtime | 100 minutes | Standard commercial feature duration |
+| Mean Series Seasons | 1.8 seasons | Median at 1.0 season |
+| Single-Season Shows | 67.4% | Reflects limited series and early cancellations |
+| Leading Production Territory | United States | 3,680 titles (41.9%) |
+| Leading Content Genre | International Movies | 2,752 titles |
+| Modal Age Certification | TV-MA | 3,205 titles (36.5%) |
+
+### Analytical Takeaways
+
+1. **Core Catalog Sizing**: Feature films represent more than double the volume of television series. However, multi-season series create cumulative watch-time that exceeds per-title film consumption.
+2. **International Sourcing Concentration**: While the United States remains the largest individual contributor, India (1,046 titles) and the United Kingdom (803 titles) represent critical regional production centers. Regional investments across South Korea, Japan, and Spain demonstrate focused expansion into non-English programming.
+3. **Hyper-Growth Era (2016-2019)**: Title onboarding increased dramatically following Netflix's global launch across 130 countries in 2016, with annual additions peaking between 2018 and 2020 before stabilizing.
+4. **Mature Audience Orientation**: `TV-MA` and `TV-14` together account for over 60% of all catalog entries, positioning Netflix primarily toward adult and young-adult demographics.
+5. **Acquisition Lag Profile**: Approximately 26% of all titles enter the platform within the same calendar year as their original release, reflecting aggressive day-and-date licensing and original commissioning.
+
+---
+
+## Interactive Streamlit Dashboard
+
+The repository includes a dark-themed, Netflix-branded interactive analytics dashboard located in `Dashboard/app.py`.
+
+### Dashboard Capabilities
+
+- **Overview Tab**: Metric KPI cards, interactive donut chart of content split, and stacked bar distribution of age certifications.
+- **Geography Tab**: Top-N country production comparison with adjustable depth, multi-country split resolution, and US vs. International market share breakdown.
+- **Time Series Tab**: Dual view by Year and Month, stacked area volume growth, year-over-year percentage change bars, and an interactive Year x Month onboarding heatmap.
+- **Genre Tab**: Frequency analysis across all categories, type-specific genre rankings, and multi-line historical trend tracking for top genres over time.
+- **Content Details Tab**: Movie duration histogram with mean/median reference lines, duration boxplots by age rating, television season distribution, and acquisition lag violin plots.
+- **People Tab**: Prolific director rankings and most-credited actor rosters, filterable by content format.
+- **Data Explorer Tab**: Searchable, sortable tabular data viewer with integrated CSV export capabilities.
+
+---
+
+## Tech Stack
+
+- **Core Engine**: Python 3.8+
 - **Data Manipulation**: [Pandas](https://pandas.pydata.org/), [NumPy](https://numpy.org/)
-- **Data Visualization**: [Matplotlib](https://matplotlib.org/), [Seaborn](https://seaborn.pydata.org/)
-- **Environment**: [Jupyter Notebook](https://jupyter.org/) / VS Code
+- **Visual Analytics**: [Plotly](https://plotly.com/), [Matplotlib](https://matplotlib.org/), [Seaborn](https://seaborn.pydata.org/)
+- **Application Framework**: [Streamlit](https://streamlit.io/)
+- **Notebook Environment**: [Jupyter Notebook](https://jupyter.org/) / VS Code
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
-Follow these steps to run the analysis locally:
+### Prerequisites
 
-### 1. Clone the Repository
+Ensure Python 3.8 or higher is installed on your workstation.
+
+### 1. Clone Repository
+
 ```bash
 git clone https://github.com/NumiKun/Netflix-Movies-and-Series-Data-Analyze.git
-cd Netflix-Movies-and-Series-Data-Analyze
+cd "Netflix-Movies-and-Series-Data-Analyze"
 ```
 
-### 2. Set Up a Virtual Environment (Optional but Recommended)
+### 2. Environment Setup
+
 ```bash
 # Windows
 python -m venv venv
@@ -139,30 +183,38 @@ source venv/bin/activate
 ```
 
 ### 3. Install Dependencies
+
+Install packages required for both the Jupyter Notebook and the Streamlit dashboard:
+
 ```bash
-pip install pandas numpy matplotlib seaborn jupyter
+pip install -r Dashboard/requirements.txt matplotlib seaborn jupyter
 ```
 
-### 4. Launch Jupyter Notebook
+### 4. Running the Jupyter Notebook
+
+Open and execute the complete analytical pipeline:
+
 ```bash
 jupyter notebook Analysis/Netflix_Data_Analysis.ipynb
 ```
 
+### 5. Launching the Interactive Dashboard
+
+Run the Streamlit application locally:
+
+```bash
+cd Dashboard
+streamlit run app.py
+```
+
+The application will start at `http://localhost:8501`.
+
 ---
 
-## 🔮 Future Enhancements
-
-- [ ] **Content-Based Recommendation Engine**: Implement TF-IDF and Cosine Similarity on `description`, `cast`, and `listed_in`.
-- [ ] **NLP & Sentiment Analysis**: Analyze synopsis text to identify recurring themes and genre sentiment trends.
-- [ ] **Interactive Web Dashboard**: Build an interactive dashboard using **Streamlit** or **Dash** with dynamic multi-filter capabilities.
-
----
-
-## 👤 Author & Acknowledgments
+## Author and License
 
 - **Author**: NumiKun
 - **GitHub**: [@NumiKun](https://github.com/NumiKun)
-- **Dataset Source**: Netflix Movies and TV Shows Dataset ([Kaggle](https://www.kaggle.com/datasets/shivamb/netflix-shows))
+- **Dataset**: [Kaggle - Netflix Movies and TV Shows](https://www.kaggle.com/datasets/shivamb/netflix-shows) by Shivam Bansal
 
----
-*Distributed under the MIT License. See `LICENSE` for more information.*
+Distributed under the MIT License. See `LICENSE` for details.
