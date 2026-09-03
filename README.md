@@ -1,13 +1,15 @@
 # Netflix Movies and TV Shows Data Analytics
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B.svg?logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-Live%20App-FF4B4B.svg?logo=streamlit&logoColor=white)](https://netflix-movies-and-series-data-analyze.streamlit.app/)
 [![Plotly](https://img.shields.io/badge/Plotly-Interactive%20Visuals-3F4F75.svg?logo=plotly&logoColor=white)](https://plotly.com/)
 [![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-150458.svg?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
 [![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-orange.svg?logo=jupyter&logoColor=white)](https://jupyter.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 An end-to-end data analytics portfolio project featuring an in-depth Exploratory Data Analysis (EDA) pipeline and a production-grade interactive Streamlit web dashboard analyzing Netflix's global content library up to late 2021.
+
+Live Web Application: [https://netflix-movies-and-series-data-analyze.streamlit.app/](https://netflix-movies-and-series-data-analyze.streamlit.app/)
 
 ---
 
@@ -134,6 +136,8 @@ The analytical pipeline cleans and standardizes the dataset through five sequent
 ## Interactive Streamlit Dashboard
 
 The repository includes a dark-themed, Netflix-branded interactive analytics dashboard located in `Dashboard/app.py`.
+
+Live Demo: [https://netflix-movies-and-series-data-analyze.streamlit.app/](https://netflix-movies-and-series-data-analyze.streamlit.app/)
 
 ### Dashboard Capabilities
 
