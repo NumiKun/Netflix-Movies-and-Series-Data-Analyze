@@ -4,6 +4,7 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import plotly.io as pio
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -19,14 +20,24 @@ COLOR_SEQ = [
     "#3498DB", "#E74C3C",
 ]
 
+pio.templates["netflix_dark"] = go.layout.Template(
+    layout=go.Layout(
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(26,26,26,0.6)",
+        font=dict(color="#b3b3b3", family="Inter, sans-serif"),
+        margin=dict(l=20, r=20, t=40, b=20),
+        legend=dict(bgcolor="rgba(0,0,0,0)"),
+        xaxis=dict(gridcolor="#2a2a2a", zerolinecolor="#2a2a2a"),
+        yaxis=dict(gridcolor="#2a2a2a", zerolinecolor="#2a2a2a"),
+    )
+)
+pio.templates.default = "netflix_dark"
+
 PLOTLY_LAYOUT = dict(
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(26,26,26,0.6)",
     font=dict(color="#b3b3b3", family="Inter, sans-serif"),
     margin=dict(l=20, r=20, t=40, b=20),
-    legend=dict(bgcolor="rgba(0,0,0,0)"),
-    xaxis=dict(gridcolor="#2a2a2a", zerolinecolor="#2a2a2a"),
-    yaxis=dict(gridcolor="#2a2a2a", zerolinecolor="#2a2a2a"),
 )
 
 st.set_page_config(
@@ -168,11 +179,11 @@ def load_and_clean():
         df.loc[idx, "duration"] = df.loc[idx, "rating"]
         df.loc[idx, "rating"] = np.nan
 
-    df["director"].fillna("Unknown", inplace=True)
-    df["cast"].fillna("Unknown", inplace=True)
-    df["country"].fillna("Unknown", inplace=True)
+    df["director"] = df["director"].fillna("Unknown")
+    df["cast"] = df["cast"].fillna("Unknown")
+    df["country"] = df["country"].fillna("Unknown")
 
-    df.dropna(subset=["date_added", "rating", "duration"], inplace=True)
+    df = df.dropna(subset=["date_added", "rating", "duration"])
 
     df["date_added"] = pd.to_datetime(df["date_added"].str.strip())
     df["year_added"] = df["date_added"].dt.year.astype(int)
@@ -446,7 +457,7 @@ with tab_geo:
     top_n_countries = st.slider("Show top N countries", 5, 30, 15, key="geo_slider")
 
     all_genres_geo = sorted(
-        set(g.strip() for gl in df_filtered["listed_in"].dropna() for g in gl.split(","))
+        set(g.strip() for gl in df_filtered["listed_in"].dropna() for g in str(gl).split(",") if g.strip())
     )
     geo_genre = st.selectbox(
         "Filter by genre (optional)",
@@ -669,9 +680,8 @@ with tab_time:
         textfont=dict(size=9, color="#ffffff"),
         hovertemplate="<b>%{y} - %{x}</b><br>%{z} titles<extra></extra>",
         colorbar=dict(
-            title="Titles",
+            title=dict(text="Titles", font=dict(color="#b3b3b3")),
             tickfont=dict(color="#b3b3b3"),
-            titlefont=dict(color="#b3b3b3"),
         ),
     ))
     fig_heat.update_layout(**PLOTLY_LAYOUT, height=380, yaxis=dict(gridcolor="#2a2a2a"))
