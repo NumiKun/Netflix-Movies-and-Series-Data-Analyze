@@ -5,6 +5,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import plotly.io as pio
+from pathlib import Path
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -172,7 +173,22 @@ div[data-testid="stMarkdownContainer"] h1 { color: #ffffff; }
 
 @st.cache_data(show_spinner=False)
 def load_and_clean():
-    df = pd.read_csv("../Dataset/netflix_titles.csv")
+    base_dir = Path(__file__).resolve().parent
+    candidates = [
+        base_dir.parent / "Dataset" / "netflix_titles.csv",
+        base_dir / "Dataset" / "netflix_titles.csv",
+        Path("Dataset/netflix_titles.csv"),
+        Path("../Dataset/netflix_titles.csv"),
+    ]
+    data_path = None
+    for p in candidates:
+        if p.exists():
+            data_path = p
+            break
+    if data_path is None:
+        raise FileNotFoundError("Could not find netflix_titles.csv in expected locations.")
+
+    df = pd.read_csv(data_path)
 
     anomalies = df[df["rating"].str.contains("min", na=False)]
     for idx in anomalies.index:
